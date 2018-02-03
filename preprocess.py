@@ -4,7 +4,7 @@ import re
 print('imported re')
 import ngrams #we made this file
 
-known_threshold = 0
+known_threshold = 1
 
 def binary_search(key,l):
     low_bound = -1
@@ -21,19 +21,21 @@ def binary_search(key,l):
         else:
             high_bound = check
 
+def preprocess(text):
+    return word_tokenize(re.sub(r'[\*~\^]',r'',text.lower()))
+
 users = ['neiltyson','realDonaldTrump','rihanna','elonmusk','KingJames']
-tweets_by_user = {}
+by_user_corpus = {}
 all_tweets = []
 
 for user in users:
     with open(user + '_tweets.txt','r',encoding = 'utf-8') as f:
         text = f.read()
 
-    tokenized = [word_tokenize(re.sub(r'[\*~\^]',r'',comment.lower())) for comment in text.split('\n')]
-    corpus_word_count = sum(len(sent) for sent in tokenized)
-    tokenized = [['<tweet>'] + comment + ['</tweet>'] for comment in tokenized]
+    tokenized = preprocess(text)
+    corpus_word_count = len(tokenized)
 
-    tweets_by_user[user] = tokenized
+    by_user_corpus[user] = tokenized
     all_tweets.extend(tokenized)
 
 print('finished tokenizing')
@@ -56,12 +58,14 @@ assert(len(unknowns) + len(knowns) == sum(len(value) for key, value in flipped.i
 def is_known(word):
     return binary_search(word,knowns)
 
-tweets_by_user_unks = {}
+print('Preprocessed')
 
-for user in users:
-    tweets_by_user_unks[user] = [[(word if is_known(word) else '<unk/>') for word in comment] for comment in tweets_by_user[user]]
-    
-print('marked unknowns')
-
-with open('dict.txt','w',encoding='utf-8') as fh:
-	fh.write(str(tweets_by_user_unks))
+##tweets_by_user_unks = {}
+##
+##for user in users:
+##    tweets_by_user_unks[user] = [[(word if is_known(word) else '<unk/>') for word in comment] for comment in tweets_by_user[user]]
+##    
+##print('marked unknowns')
+##
+##with open('dict.txt','w',encoding='utf-8') as fh:
+##	fh.write(str(tweets_by_user_unks))
