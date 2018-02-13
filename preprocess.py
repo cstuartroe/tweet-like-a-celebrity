@@ -24,7 +24,7 @@ def binary_search(key,l):
 def preprocess(text):
     return word_tokenize(re.sub(r'[\*~\^]',r'',text.lower()))
 
-users = ['neiltyson','realDonaldTrump','rihanna','elonmusk','KingJames']
+users = ['realDonaldTrump','rihanna','elonmusk','KingJames','neiltyson']
 by_user_corpus = {}
 all_tweets = []
 

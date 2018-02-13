@@ -61,16 +61,20 @@ def angle(vec1,vec2):
 
 average_word_vector = scale_vector(tweet2vec(all_tweets)[:-1])
 
-user_word_vectors = {}
+##user_word_vectors = {}
+##
+##for user in users:
+##    unnormed_vector = scale_vector(tweet2vec(by_user_corpus[user])[:-1])
+##    user_word_vectors[user] = scale_vector(np.subtract(unnormed_vector,average_word_vector))
 
-for user in users:
-    unnormed_vector = scale_vector(tweet2vec(by_user_corpus[user])[:-1])
-    user_word_vectors[user] = scale_vector(np.subtract(unnormed_vector,average_word_vector))
+from uservectors import *
 
-def percent_alike(tweet):
-    tweet_vector = tweet2vec(preprocess(tweet))[:-1]
+def classify(string):
+    tweet_vector = tweet2vec(preprocess(string))[:-1]
     similarities = [angle(tweet_vector,user_word_vectors[user]) for user in users]
     maximum = max(similarities)
     similarities = [maximum - value for value in similarities]
     return softmax(scale_vector(similarities, length=5))
 
+##with open('uservectors.py','w',encoding='utf-8') as fh:
+##    fh.write('user_word_vectors = ' + str(user_word_vectors))

@@ -5,7 +5,7 @@ api = twitter.Twitter(auth = twitter.OAuth(consumer_key='gafkoAHgzhezUbu03gQ1LWG
                 token='2319318205-dMtFoL3Ge8oVOn7dLYp7PbSqdLkuXx4cYBvfllW',
                   token_secret='p8oCn4YLsgwwaUDmsPWzBHVeGKean6j7svuYEcTtxboSZ'))
 
-users = ['neiltyson','realDonaldTrump','rihanna','elonmusk','KingJames']
+users = ['realDonaldTrump','rihanna','elonmusk','KingJames','neiltyson']
 
 def get_timeline(username):
     statuses = api.statuses.user_timeline(screen_name = username, tweet_mode = 'extended', count = 200)
